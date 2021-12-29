@@ -103,9 +103,9 @@ def main(_argv):
       break
  
     # วาดเส้นทั้งหมดลงใน frame
-    line_1 = line1[ll]
+    line_1 = line1[0]
     cv2.line(frame, line_1[0], line_1[1], (255, 255, 255), 2)
-    line_2 = line2[ll]
+    line_2 = line2[0]
     cv2.line(frame, line_2[0], line_2[1], (255, 255, 255), 2)
     
     t1 = time.time()
@@ -150,32 +150,32 @@ def main(_argv):
       speedList = []
       
       #เช็คการตัดในแต่ละเส้น
-      line_o = line1[ll]
+      line_o = line1[0]
       # เช็คการตัดเส้น
       TC1 = CheckCrossLine.LineCrossing(midpoint, previous_midpoint, line_o[0] ,line_o[1])
       if TC1 and (track.track_id not in line1_ac):
         if track.track_id not in time_mem:
           time_mem[track.track_id] = []
         time_mem[track.track_id].append(frame_index+1)
-        line_tc[ll][0] += 1
+        line_tc[0][0] += 1
         # draw alert line
         cv2.line(frame, line_o[0], line_o[1], (0, 0, 255), 2)
         line1_ac.append(track.track_id)  # ID นี้ผ่านเส้นนี้แล้ว
         intersection_time = datetime.datetime.now() - datetime.timedelta(microseconds=datetime.datetime.now().microsecond)
-        intersect_info[ll].append([track_cls, origin_midpoint, intersection_time])
+        intersect_info[0].append([track_cls, origin_midpoint, intersection_time])
 
-      line_o = line2[ll]
+      line_o = line2[0]
       TC2 = CheckCrossLine.LineCrossing(midpoint, previous_midpoint, line_o[0] ,line_o[1])
       if TC2 and (track.track_id not in line2_ac):
         if track.track_id not in time_mem:
           time_mem[track.track_id] = []
         time_mem[track.track_id].append(frame_index+1)
-        line_tc[ll][1] += 1
+        line_tc[0][1] += 1
         # draw alert line
         cv2.line(frame, line_o[0], line_o[1], (0, 0, 255), 2)
         line2_ac.append(track.track_id)  # Set already counted for ID to true.
         intersection_time = datetime.datetime.now() - datetime.timedelta(microseconds=datetime.datetime.now().microsecond)
-        intersect_info[ll].append([track_cls, origin_midpoint, intersection_time])
+        intersect_info[0].append([track_cls, origin_midpoint, intersection_time])
 
       #คำนวณความเร็ว
       if track.track_id in time_mem and len(time_mem[track.track_id]) == 2:
@@ -203,11 +203,10 @@ def main(_argv):
 
     # Draw total count.
     yy = 0.1 * frame.shape[0]
-    for ll in range(l):
-      xx = ll+1
-      cv2.putText(frame, "Total{}: {},{}".format(str(xx),str(line_tc[ll][0]),str(line_tc[ll][1])), (int(0.05 * frame.shape[1]), int(yy)), 0,
+    xx = 1
+    cv2.putText(frame, "Total{}: {},{}".format(str(xx),str(line_tc[0][0]),str(line_tc[0][1])), (int(0.05 * frame.shape[1]), int(yy)), 0,
                 1.5e-3 * frame.shape[0], (0, 255, 255), 2)
-      yy += 0.1 * frame.shape[0]
+    yy += 0.1 * frame.shape[0]
 #    print("Frame:",frame_index,": ",line_tc[ll])
       
     cv2.putText(frame, "frame_index {}".format(str(frame_index+1)), (int(0.75 * frame.shape[1]), int(0.9 * frame.shape[0])), 0,
@@ -239,3 +238,4 @@ if __name__ == '__main__':
     app.run(main)
   except SystemExit:
     pass
+
