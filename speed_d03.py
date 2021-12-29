@@ -34,6 +34,7 @@ warnings.filterwarnings('ignore')
 
 def main(_argv):
   l,x1,y1,x2,y2 = newLine.createLineSpeed2()  #get lines position
+  distance = input("Enter distance between lines(m) :")
   classes_s,confidence_s,boxes_s = splitFile.spilttxt(FLAGS.text)   #get track imformation
   
   # Definition of the parameters
@@ -154,7 +155,6 @@ def main(_argv):
         line_o = line1[ll]
         # เช็คการตัดเส้น
         TC1 = CheckCrossLine.LineCrossing(midpoint, previous_midpoint, line_o[0] ,line_o[1])
-        #ถ้าตัดและไม่เคยผ่านเส้น1
         if TC1 and (track.track_id not in line1_ac):
           if track.track_id not in time_mem:
             time_mem[track.track_id] = []
@@ -162,7 +162,7 @@ def main(_argv):
           line_tc[ll][0] += 1
           # draw alert line
           cv2.line(frame, line_o[0], line_o[1], (0, 0, 255), 2)
-          line1_ac.append(track.track_id)  # เช็คว่า ID นี้ผ่านเส้นนี้แล้ว
+          line1_ac.append(track.track_id)  # ID นี้ผ่านเส้นนี้แล้ว
           intersection_time = datetime.datetime.now() - datetime.timedelta(microseconds=datetime.datetime.now().microsecond)
           intersect_info[ll].append([track_cls, origin_midpoint, intersection_time])
         
@@ -179,11 +179,11 @@ def main(_argv):
           intersection_time = datetime.datetime.now() - datetime.timedelta(microseconds=datetime.datetime.now().microsecond)
           intersect_info[ll].append([track_cls, origin_midpoint, intersection_time])
         
+        #คำนวณความเร็ว
         if track.track_id in time_mem and len(time_mem[track.track_id]) == 2:
           time1 = time_mem[track.track_id][0]
           time2 = time_mem[track.track_id][1]
           time_mem[track.track_id] = []
-          distance = 40 #ระยะทางหน่วยเมตร 
           realtime = (time2-time1)/30 # แปลงเวลาในหน่วยเฟรมเป็นวินาที
           speed = (distance/realtime)*3.6 # คำนวณและแปลงหน่วยเป็นกิโลเมตรต่อชั่วโมง
           speed_list[track.track_id] = speed
@@ -212,9 +212,9 @@ def main(_argv):
       yy += 0.1 * frame.shape[0]
 #    print("Frame:",frame_index,": ",line_tc[ll])
       
-    cv2.putText(frame, "frame_index {}".format(str(frame_index+1)), (int(0.5 * frame.shape[1]), int(0.9 * frame.shape[0])), 0,
+    cv2.putText(frame, "frame_index {}".format(str(frame_index+1)), (int(0.75 * frame.shape[1]), int(0.9 * frame.shape[0])), 0,
                   1.5e-3 * frame.shape[0], (255, 255, 255), 2)
-    cv2.putText(frame, "speed_avg {}".format(speed_avg), (int(0.5 * frame.shape[1]), int(0.1 * frame.shape[0])), 0,
+    cv2.putText(frame, "speed_avg {}".format(speed_avg), (int(0.9 * frame.shape[1]), int(0.05 * frame.shape[0])), 0,
                   1.5e-3 * frame.shape[0], (255, 255, 255), 2)
     
     out.write(frame)
