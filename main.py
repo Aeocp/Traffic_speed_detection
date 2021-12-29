@@ -35,6 +35,7 @@ warnings.filterwarnings('ignore')
 def main(_argv):
   x1,y1,x2,y2 = newLine.createLineSpeed()  #get lines position
   distance = input("Enter distance between lines(m) :")
+  distance = int(distance)
   classes_s,confidence_s,boxes_s = splitFile.spilttxt(FLAGS.text)   #get track imformation
   
   # Definition of the parameters
