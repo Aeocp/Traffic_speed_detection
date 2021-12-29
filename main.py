@@ -82,16 +82,16 @@ def main(_argv):
   line1 = []
   line2 = []
   #สร้างเส้น1,2ของถนนแต่ละเส้น:
-  xb1 = float(x1[ll*2])
-  yb1 = float(y1[ll*2])
-  xe1 = float(x1[ll*2+1])
-  ye1 = float(y1[ll*2+1])
+  xb1 = float(x1[0])
+  yb1 = float(y1[0])
+  xe1 = float(x1[1])
+  ye1 = float(y1[1])
   line_c1 = [(int(xb1 * frameX), int(yb1* frameY)), (int(xe1 * frameX), int(ye1 * frameY))]
   line1.append(line_c1)
-  xb2 = float(x2[ll*2])
-  yb2 = float(y2[ll*2])
-  xe2 = float(x2[ll*2+1])
-  ye2 = float(y2[ll*2+1])
+  xb2 = float(x2[0])
+  yb2 = float(y2[0])
+  xe2 = float(x2[1])
+  ye2 = float(y2[1])
   line_c2 = [(int(xb2 * frameX), int(yb2* frameY)), (int(xe2 * frameX), int(ye2 * frameY))]
   line2.append(line_c2)
     
