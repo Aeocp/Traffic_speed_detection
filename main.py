@@ -189,9 +189,9 @@ def main(_argv):
         savg = 0
         co = len(speed_list)
         for s in speed_list:
-          savg += s
-        speed_avg = savg/co
-        print("Frame:",frame_index ," ID:" ,track.track_id ," speed:" ,speed)
+          savg += speed_list[s]
+        speed_avg = ('%.2f' % (savg/co))
+        print("Frame:",frame_index ," ID:" ,track.track_id ," speed:" ,('%.2f' %speed))
           
       cv2.rectangle(frame, (int(bbox[0]), int(bbox[1])), (int(bbox[2]), int(bbox[3])), (0, 255, 0), 2)
       cv2.putText(frame, "ID: " + str(track.track_id), (int(bbox[0]), int(bbox[1])), 0, 1.5e-3 * frame.shape[0], (0, 255, 0), 2)
@@ -210,9 +210,9 @@ def main(_argv):
     yy += 0.1 * frame.shape[0]
 #    print("Frame:",frame_index,": ",line_tc[ll])
       
-    cv2.putText(frame, "frame_index {}".format(str(frame_index+1)), (int(0.75 * frame.shape[1]), int(0.9 * frame.shape[0])), 0,
+    cv2.putText(frame, "frame_index {}".format(str(frame_index+1)), (int(0.5 * frame.shape[1]), int(0.9 * frame.shape[0])), 0,
                   1.5e-3 * frame.shape[0], (255, 255, 255), 2)
-    cv2.putText(frame, "speed_avg {}".format(speed_avg), (int(0.9 * frame.shape[1]), int(0.05 * frame.shape[0])), 0,
+    cv2.putText(frame, "speed_avg {}".format(speed_avg), (int(0.7 * frame.shape[1]), int(0.05 * frame.shape[0])), 0,
                   1.5e-3 * frame.shape[0], (255, 255, 255), 2)
     
     out.write(frame)
@@ -239,4 +239,3 @@ if __name__ == '__main__':
     app.run(main)
   except SystemExit:
     pass
-
